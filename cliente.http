@@ -1,0 +1,4 @@
+# Apagar
+DELETE  http://localhost:8080/api/motorista/1
+Authorization: Basic admin@fiap.com.br fiap123
+###

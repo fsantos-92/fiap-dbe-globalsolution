@@ -2,6 +2,8 @@ package br.com.fiap.globalsolution.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "TB_FB_TELEFONE")
 public class Telefone {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_telefone")
     private Long id;
 
@@ -25,10 +28,9 @@ public class Telefone {
     @Column(name = "nr_ddd")
     private String ddd;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_motorista")
-    @NotBlank
     private Motorista motorista;
     
 

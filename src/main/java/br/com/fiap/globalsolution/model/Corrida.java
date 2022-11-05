@@ -5,11 +5,14 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,25 +20,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "TB_FB_CORRIDA")
 public class Corrida {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_corrida")
     private Long id;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_motorista")
-    @NotBlank
+    @NotNull
     private Motorista motorista;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="id_cliente")
-    @NotBlank
-    private Cliente cliente;
+    @JoinColumn(name="id_passageiro")
+    @NotNull
+    private Passageiro passageiro;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_veiculo")
-    @NotBlank
+    @NotNull
     private Veiculo veiculo;
 
     @NotBlank
@@ -46,26 +50,24 @@ public class Corrida {
     @Column(name = "ds_destino")
     private String destino;
 
-    @NotBlank
+    @NotNull
     @Column(name = "dt_corrida")
     private LocalDate data;
 
-    @NotBlank
     @Column(name = "vl_corrida")
     private BigDecimal valor;
 
-    @NotBlank
     @Column(name = "st_finalizada")
     private boolean isFinalizada;
 
     public Corrida() {
     }
 
-    public Corrida(@NotBlank Motorista motorista, @NotBlank Cliente cliente, @NotBlank Veiculo veiculo,
+    public Corrida(@NotBlank Motorista motorista, @NotBlank Passageiro passageiro, @NotBlank Veiculo veiculo,
             @NotBlank String origem, @NotBlank String destino, @NotBlank LocalDate data, @NotBlank BigDecimal valor,
             @NotBlank boolean isFinalizada) {
         this.motorista = motorista;
-        this.cliente = cliente;
+        this.passageiro = passageiro;
         this.veiculo = veiculo;
         this.origem = origem;
         this.destino = destino;
@@ -90,12 +92,12 @@ public class Corrida {
         this.motorista = motorista;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Passageiro getPassageiro() {
+        return passageiro;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setPassageiro(Passageiro passageiro) {
+        this.passageiro = passageiro;
     }
 
     public Veiculo getVeiculo() {

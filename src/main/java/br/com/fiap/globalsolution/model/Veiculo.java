@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,17 +25,16 @@ public class Veiculo {
     @Column(name = "id_veiculo")
     private Long id;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_motorista")
-    @NotBlank
     private Motorista motorista;
 
     @NotBlank
     @Column(name = "ds_modelo")
     private String modelo;
 
-    @NotBlank
+    @NotNull
     @Column(name = "ds_ano", scale = 4)
     private int ano;
 

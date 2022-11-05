@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class SecurityConfiguration{
@@ -16,6 +17,7 @@ public class SecurityConfiguration{
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
         http
+            // .addFilterAfter(new AuthorizationFilter(), BasicAuthenticationFilter.class)
             .authorizeHttpRequests() 
                 // Usuarios
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
@@ -26,32 +28,32 @@ public class SecurityConfiguration{
                 // Motoristas
                 .antMatchers(HttpMethod.GET, "/api/motorista/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/motorista").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/motorista/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/motorista/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/motorista/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/motorista/**").permitAll()
 
                 // Telefone
                 .antMatchers(HttpMethod.GET, "/api/telefone/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/telefone").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/telefone/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/telefone/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/telefone/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/telefone/**").permitAll()
 
                 // Veiculos
                 .antMatchers(HttpMethod.GET, "/api/veiculo/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/veiculo").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/veiculo/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/veiculo/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/veiculo/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/veiculo/**").permitAll()
 
-                // Clientes
-                .antMatchers(HttpMethod.GET, "/api/cliente/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/cliente").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/cliente/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/cliente/**").authenticated()
+                // Passageiro
+                .antMatchers(HttpMethod.GET, "/api/passageiro/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/passageiro").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/passageiro/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/passageiro/**").permitAll()
 
                 // Corridas
                 .antMatchers(HttpMethod.GET, "/api/corrida/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/corrida").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/corrida/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/corrida/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/corrida/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/corrida/**").permitAll()
                 
                 // Login
                 .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
@@ -65,9 +67,9 @@ public class SecurityConfiguration{
             .and()
                 .csrf().disable()
             //.and()
-                .headers().frameOptions().disable()
-            .and()
-                .formLogin()
+                // .headers().frameOptions().disable()
+            // .and()
+                // .formLogin()
                 
         ;        
         return http.build();

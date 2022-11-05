@@ -8,27 +8,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.globalsolution.model.Cliente;
-import br.com.fiap.globalsolution.repository.ClienteRepository;
+import br.com.fiap.globalsolution.model.Passageiro;
+import br.com.fiap.globalsolution.repository.PassageiroRepository;
 
 @Service
-public class ClienteService {
+public class PassageiroService {
     @Autowired
-    ClienteRepository repository;
+    PassageiroRepository repository;
 
-    public Page<Cliente> listAll(Pageable pageable) {
+    public Page<Passageiro> listAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public List<Cliente> listAll() {
+    public List<Passageiro> listAll() {
         return repository.findAll();
     }
 
-    public void save(Cliente cliente) {
-        repository.save(cliente);
+    public void save(Passageiro passageiro) {
+        repository.save(passageiro);
     }
 
-    public Optional<Cliente> getById(Long id) {
+    public Optional<Passageiro> getById(Long id) {
         return repository.findById(id);
     }
 

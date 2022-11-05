@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.fiap.globalsolution.model.Motorista;
 import br.com.fiap.globalsolution.model.Telefone;
 import br.com.fiap.globalsolution.repository.TelefoneRepository;
 
@@ -34,5 +35,9 @@ public class TelefoneService {
 
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<Telefone> findByMotorista(Motorista motorista) {
+        return repository.findByMotorista(motorista);
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,15 +17,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
-@Table(name = "TB_FB_CLIENTE")
-public class Cliente {
+@Table(name = "TB_FB_PASSAGEIRO")
+public class Passageiro {
     @Id
-    @Column(name = "id_cliente")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_passageiro")
     private Long id;
 
     @NotBlank
-    @Column(name = "nm_cliente")
-    private String name;
+    @Column(name = "nm_passageiro")
+    private String nome;
     
     @Column(name = "nr_cpf")
     private String cpf;
@@ -40,14 +43,14 @@ public class Cliente {
     @Column(name = "ds_senha")
     private String password;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "passageiro", cascade = CascadeType.REMOVE)
     private List<Corrida> corridas;
 
-    public Cliente() {
+    public Passageiro() {
     }
 
-    public Cliente(@NotBlank String name, String cpf, @NotBlank String rg, @Email String email, String password) {
-        this.name = name;
+    public Passageiro(@NotBlank String nome, String cpf, @NotBlank String rg, @Email String email, String password) {
+        this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
         this.email = email;
@@ -62,12 +65,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCpf() {
@@ -103,7 +106,7 @@ public class Cliente {
     }
 
     public void addCorrida(Corrida corrida) {
-        corrida.setCliente(this);
+        corrida.setPassageiro(this);
         corridas.add(corrida);
     }
     

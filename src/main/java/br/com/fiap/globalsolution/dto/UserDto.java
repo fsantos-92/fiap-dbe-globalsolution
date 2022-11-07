@@ -1,5 +1,7 @@
 package br.com.fiap.globalsolution.dto;
 
-public record UserDto (Long id, String name, String email) {
+import br.com.fiap.globalsolution.model.JwtToken;
+
+public record UserDto (Long id, String name, String email, boolean isMotorista, JwtToken token) {
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,8 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import br.com.fiap.globalsolution.dto.UserDto;
@@ -38,6 +41,8 @@ public class User implements UserDetails {
     private String password;
 
     private boolean isMotorista = false;
+    @Transient
+    private JwtToken token;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Role> roles = new ArrayList<>();
@@ -55,7 +60,7 @@ public class User implements UserDetails {
     }
 
     public UserDto toDto(){
-        return new UserDto(id, name, email);
+        return new UserDto(id, name, email, isMotorista, token);
     }
 
     public User password(String password) {

@@ -1,6 +1,8 @@
 package br.com.fiap.globalsolution.controller;
 
 import java.util.Date;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+
+import br.com.fiap.globalsolution.dto.UserDto;
 import br.com.fiap.globalsolution.model.JwtToken;
 import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.AuthenticationService;
@@ -53,7 +57,8 @@ public class AuthenticationController {
                 // .sign(Algorithm.HMAC512("fafslpq$783@!475")
                 .sign(Algorithm.HMAC512(secret)
             );
-            return ResponseEntity.ok(new JwtToken(token, "Bearer", newUser.isMotorista()));
+            // return ResponseEntity.ok(new JwtToken(token, "Bearer", newUser.isMotorista()));
+            return ResponseEntity.ok(new UserDto(newUser.getId(), newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
         }catch(AuthenticationException e){
             e.printStackTrace();
         }

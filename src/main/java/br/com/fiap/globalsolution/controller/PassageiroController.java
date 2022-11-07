@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,16 +23,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.globalsolution.model.Passageiro;
+import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.PassageiroService;
+import br.com.fiap.globalsolution.service.UserService;
 
 @RestController
 @RequestMapping("/api/passageiro")
+@CrossOrigin("*")
 public class PassageiroController {
     @Autowired
     PassageiroService service;
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public Page<Passageiro> index( @PageableDefault(size = 10, sort = "id") Pageable pageable){
@@ -42,6 +49,8 @@ public class PassageiroController {
     public ResponseEntity<Passageiro> create(@RequestBody @Valid Passageiro passageiro){
         passageiro.setPassword(passwordEncoder.encode(passageiro.getPassword()));
         service.save(passageiro);
+        User user = passageiro.toUser();
+        userService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(passageiro);
     }
 

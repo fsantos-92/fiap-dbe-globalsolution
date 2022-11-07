@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -35,6 +36,8 @@ public class User implements UserDetails {
     @Size(min = 8)
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
+
+    private boolean isMotorista = false;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Role> roles = new ArrayList<>();
@@ -135,6 +138,14 @@ public class User implements UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isMotorista() {
+        return isMotorista;
+    }
+
+    public void setMotorista(boolean isMotorista) {
+        this.isMotorista = isMotorista;
     }
 
 }

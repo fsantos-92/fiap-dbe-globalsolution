@@ -109,5 +109,9 @@ public class Passageiro {
         corrida.setPassageiro(this);
         corridas.add(corrida);
     }
+
+    public User toUser() {
+        return new User().name(nome).email(email).password(password);
+    }
     
 }

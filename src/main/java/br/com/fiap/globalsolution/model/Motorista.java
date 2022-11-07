@@ -161,5 +161,8 @@ public class Motorista {
                 + "]";
     }
 
+    public User toUser() {
+        return new User().name(nome).email(email).password(password);
+    }
     
 }

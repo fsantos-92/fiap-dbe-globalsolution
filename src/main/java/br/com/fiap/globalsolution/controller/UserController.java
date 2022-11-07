@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import br.com.fiap.globalsolution.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -37,12 +39,12 @@ public class UserController {
         return service.listAll(pageable);
     }
 
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody @Valid User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        service.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    }
+    // @PostMapping
+    // public ResponseEntity<User> create(@RequestBody @Valid User user){
+    //     user.setPassword(passwordEncoder.encode(user.getPassword()));
+    //     service.save(user);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    // }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> destroy(@PathVariable Long id){

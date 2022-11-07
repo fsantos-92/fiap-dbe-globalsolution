@@ -1,5 +1,7 @@
 package br.com.fiap.globalsolution.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,15 +11,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.fiap.globalsolution.service.TokenService;
 
 @Configuration
 public class SecurityConfiguration{
 
+    @Autowired ApplicationContext context;
+
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
         http
-            // .addFilterAfter(new AuthorizationFilter(), BasicAuthenticationFilter.class)
             .authorizeHttpRequests() 
                 // Usuarios
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
@@ -28,32 +33,32 @@ public class SecurityConfiguration{
                 // Motoristas
                 .antMatchers(HttpMethod.GET, "/api/motorista/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/motorista").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/motorista/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/motorista/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/motorista/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/motorista/**").authenticated()
 
                 // Telefone
                 .antMatchers(HttpMethod.GET, "/api/telefone/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/telefone").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/telefone/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/telefone/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/telefone/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/telefone/**").authenticated()
 
                 // Veiculos
                 .antMatchers(HttpMethod.GET, "/api/veiculo/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/veiculo").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/veiculo/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/veiculo/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/veiculo/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/veiculo/**").authenticated()
 
                 // Passageiro
                 .antMatchers(HttpMethod.GET, "/api/passageiro/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/passageiro").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/passageiro/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/passageiro/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/passageiro/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/passageiro/**").authenticated()
 
                 // Corridas
                 .antMatchers(HttpMethod.GET, "/api/corrida/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/corrida").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/corrida/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/corrida/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/corrida/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/corrida/**").authenticated()
                 
                 // Login
                 .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
@@ -66,10 +71,11 @@ public class SecurityConfiguration{
                 .anyRequest().denyAll()
             .and()
                 .csrf().disable()
-            //.and()
+            
                 // .headers().frameOptions().disable()
             // .and()
                 // .formLogin()
+                .addFilterBefore(new AuthorizationFilter(context), UsernamePasswordAuthenticationFilter.class)
                 
         ;        
         return http.build();

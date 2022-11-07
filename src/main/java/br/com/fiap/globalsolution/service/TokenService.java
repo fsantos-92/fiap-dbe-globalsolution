@@ -20,30 +20,38 @@ public class TokenService {
     @Autowired
     UserRepository repository;
 
-    @Value("${globalsolution.jwt.secret}")
-    String secret;
+    // @Value("${globalsolution.jwt.secret}")
+    // private String secret;
+    String secret = "fafslpq$783@!475";
+
+    public TokenService(){}
+    public TokenService(UserRepository repository){
+        this.repository = repository;
+    }
 
     public boolean validate(String token) {
-
+        System.out.println(secret);
         try{
-            JWT.require(Algorithm.HMAC512("secret")).build().verify(token);
+            JWT.require(Algorithm.HMAC512(secret)).build().verify(token);
             return true;
         }catch(Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
 
     }
 
     public Authentication getAuthenticationToken(String token) {
-        String email = JWT.require(Algorithm.HMAC512("secret")).build().verify(token).getSubject();
-        
+        String email = JWT.require(Algorithm.HMAC512(secret)).build().verify(token).getSubject();
         Optional<User> optional = repository.findByEmail(email);
         if (optional.isEmpty()) return null;
         var user = optional.get();
         Authentication authentication = 
-                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         
         return authentication;
     }
+
+        
     
 }

@@ -28,15 +28,6 @@ public class DatabaseSeed implements CommandLineRunner {
                 .password(passwordEncoder.encode("fiap123"))
                 .withRole(new Role("ROLE_ADMIN"))
         );
-
-
-        userRepository.save(
-            new User()
-                .name("Felipe")
-                .email("felipe@fiap.com.br")
-                .password(passwordEncoder.encode("fiap321"))
-                .withRole(new Role("ROLE_USER"))
-        );
         
     }
     

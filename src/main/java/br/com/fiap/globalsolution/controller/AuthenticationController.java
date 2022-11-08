@@ -20,6 +20,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.fiap.globalsolution.dto.UserDto;
+import br.com.fiap.globalsolution.dto.UserLoginDto;
 import br.com.fiap.globalsolution.model.JwtToken;
 import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.AuthenticationService;
@@ -58,7 +59,7 @@ public class AuthenticationController {
                 .sign(Algorithm.HMAC512(secret)
             );
             // return ResponseEntity.ok(new JwtToken(token, "Bearer", newUser.isMotorista()));
-            return ResponseEntity.ok(new UserDto(newUser.getId(), newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
+            return ResponseEntity.ok(new UserLoginDto(newUser.getId(), newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
         }catch(AuthenticationException e){
             e.printStackTrace();
         }

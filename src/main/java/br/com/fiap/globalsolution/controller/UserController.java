@@ -46,31 +46,31 @@ public class UserController {
     //     return ResponseEntity.status(HttpStatus.CREATED).body(user);
     // }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> destroy(@PathVariable Long id){
-        Optional<User> optional = service.getById(id);
-        if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        service.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    // @DeleteMapping("{id}")
+    // public ResponseEntity<Object> destroy(@PathVariable Long id){
+    //     Optional<User> optional = service.getById(id);
+    //     if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    //     service.deleteById(id);
+    //     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
-    }
+    // }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserDto> show(@PathVariable Long id){
-        Optional<User> optional = service.getById(id);
-        if (optional.isEmpty()) return ResponseEntity.notFound().build();
-        User user = optional.get();
-        return ResponseEntity.ok(user.toDto());
-    }
+    // @GetMapping("{id}")
+    // public ResponseEntity<UserDto> show(@PathVariable Long id){
+    //     Optional<User> optional = service.getById(id);
+    //     if (optional.isEmpty()) return ResponseEntity.notFound().build();
+    //     User user = optional.get();
+    //     return ResponseEntity.ok(user.toDto());
+    // }
 
-    @PutMapping("{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody @Valid User newUser){
-        Optional<User> optional = service.getById(id);
-        if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        var user = optional.get();
-        BeanUtils.copyProperties(newUser, user, new String [] {"id", "password"} );
-        service.save(user);
-        return ResponseEntity.ok(user);
-    }
+    // @PutMapping("{id}")
+    // public ResponseEntity<User> update(@PathVariable Long id, @RequestBody @Valid User newUser){
+    //     Optional<User> optional = service.getById(id);
+    //     if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    //     var user = optional.get();
+    //     BeanUtils.copyProperties(newUser, user, new String [] {"id", "password"} );
+    //     service.save(user);
+    //     return ResponseEntity.ok(user);
+    // }
 
 }

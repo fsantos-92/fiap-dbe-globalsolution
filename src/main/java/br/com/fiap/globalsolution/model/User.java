@@ -60,7 +60,7 @@ public class User implements UserDetails {
     }
 
     public UserDto toDto(){
-        return new UserDto(id, name, email, isMotorista, token);
+        return new UserDto(id, name, email);
     }
 
     public User password(String password) {

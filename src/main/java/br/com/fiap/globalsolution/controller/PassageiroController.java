@@ -62,6 +62,9 @@ public class PassageiroController {
     public ResponseEntity<Object> destroy(@PathVariable Long id){
         Optional<Passageiro> optional = service.getById(id);
         if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        Optional<User> opt = userService.getByEmail(optional.get().toUser().getEmail());
+        User user = opt.get();
+        userService.deleteById(user.getId());
         service.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
@@ -79,9 +82,15 @@ public class PassageiroController {
     public ResponseEntity<Passageiro> update(@PathVariable Long id, @RequestBody @Valid Passageiro newPassageiro){
         Optional<Passageiro> optional = service.getById(id);
         if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        var passageiro = optional.get();
+        Passageiro passageiro = optional.get();
+        Optional<User> opt = userService.getByEmail(passageiro.getEmail());
         BeanUtils.copyProperties(newPassageiro, passageiro, new String [] {"id", "password"} );
         service.save(passageiro);
+
+        User user = passageiro.toUser();
+        user.setId(opt.get().getId());
+        userService.save(user);
+
         return ResponseEntity.ok(passageiro);
     }
 }

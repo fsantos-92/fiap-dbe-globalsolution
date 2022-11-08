@@ -65,6 +65,9 @@ public class MotoristaController {
     public ResponseEntity<Object> destroy(@PathVariable Long id){
         Optional<Motorista> optional = service.getById(id);
         if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        Optional<User> opt = userService.getByEmail(optional.get().toUser().getEmail());
+        User user = opt.get();
+        userService.deleteById(user.getId());
         service.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
@@ -83,8 +86,14 @@ public class MotoristaController {
         Optional<Motorista> optional = service.getById(id);
         if (optional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         var motorista = optional.get();
+        Optional<User> opt = userService.getByEmail(motorista.getEmail());
         BeanUtils.copyProperties(newMotorista, motorista, new String [] {"id", "password"} );
         service.save(motorista);
+
+        User user = motorista.toUser();
+        user.setId(opt.get().getId());
+        userService.save(user);
+
         return ResponseEntity.ok(motorista);
     }
 }

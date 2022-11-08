@@ -162,7 +162,9 @@ public class Motorista {
     }
 
     public User toUser() {
-        return new User().name(nome).email(email).password(password);
+        User user = new User().name(nome).email(email).password(password);
+        user.setId(id);
+        return user;
     }
     
 }

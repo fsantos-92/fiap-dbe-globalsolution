@@ -46,14 +46,18 @@ public class MotoristaController {
     }
 
     @PostMapping
-    public ResponseEntity<Motorista> create(@RequestBody @Valid Motorista motorista){
-        // System.out.println(motorista);
+    public ResponseEntity<Object> create(@RequestBody @Valid Motorista motorista){
+        Optional<User> us = userService.getByEmail(motorista.getEmail());
+        if(us.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("E-mail já cadastrado");
 
         motorista.setPassword(passwordEncoder.encode(motorista.getPassword()));
-        service.save(motorista);
         User user = motorista.toUser();
         user.setMotorista(true);
         userService.save(user);
+        service.save(motorista);
+        
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(motorista);
     }
 

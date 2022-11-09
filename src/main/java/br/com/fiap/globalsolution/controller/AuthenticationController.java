@@ -24,6 +24,8 @@ import br.com.fiap.globalsolution.dto.UserLoginDto;
 import br.com.fiap.globalsolution.model.JwtToken;
 import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.AuthenticationService;
+import br.com.fiap.globalsolution.service.MotoristaService;
+import br.com.fiap.globalsolution.service.PassageiroService;
 import br.com.fiap.globalsolution.service.UserService;
 
 @RestController
@@ -39,6 +41,12 @@ public class AuthenticationController {
 
     @Autowired
     AuthenticationService service;
+
+    @Autowired
+    PassageiroService passageiroService;
+
+    @Autowired
+    MotoristaService motoristaService;
     
     @PostMapping
     public ResponseEntity<Object> auth(@RequestBody User user){
@@ -59,7 +67,12 @@ public class AuthenticationController {
                 .sign(Algorithm.HMAC512(secret)
             );
             // return ResponseEntity.ok(new JwtToken(token, "Bearer", newUser.isMotorista()));
-            return ResponseEntity.ok(new UserLoginDto(newUser.getId(), newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
+            long id = 0;
+            if(newUser.isMotorista())
+                id = motoristaService.findByEmail(newUser.getEmail()).getId();
+            else
+            id = passageiroService.findByEmail(newUser.getEmail()).getId();
+            return ResponseEntity.ok(new UserLoginDto(id, newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
         }catch(AuthenticationException e){
             e.printStackTrace();
         }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.globalsolution.model.Passageiro;
+import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.repository.PassageiroRepository;
 
 @Service
@@ -34,5 +35,9 @@ public class PassageiroService {
 
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public Passageiro findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 }

@@ -35,4 +35,8 @@ public class MotoristaService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    public Motorista findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }

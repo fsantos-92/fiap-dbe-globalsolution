@@ -28,6 +28,7 @@ public class Veiculo {
     // @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_motorista")
+    @NotNull
     private Motorista motorista;
 
     @NotBlank

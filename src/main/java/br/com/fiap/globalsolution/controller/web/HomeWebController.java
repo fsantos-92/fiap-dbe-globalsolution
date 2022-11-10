@@ -14,6 +14,6 @@ public class HomeWebController {
     @GetMapping
     public ModelAndView index(@PageableDefault(size = 2) Pageable pageable) {
 
-        return new ModelAndView("/home/index");
+        return new ModelAndView("home/index");
     }
 }

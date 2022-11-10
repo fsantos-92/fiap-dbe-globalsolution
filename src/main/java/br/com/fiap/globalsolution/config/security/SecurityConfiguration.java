@@ -94,8 +94,6 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/passageiro/cadastrar").authenticated()
                 .antMatchers("/css/**").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/templates/**").permitAll()
-
                 .anyRequest().denyAll()
             .and()
                 .csrf().disable()

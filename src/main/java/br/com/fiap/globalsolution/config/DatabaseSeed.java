@@ -26,12 +26,12 @@ public class DatabaseSeed implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Passageiro passageiro = new Passageiro("Admin", "1", "1", "admin@fiap.com.br", passwordEncoder.encode("fiap123"));
-        User user = passageiro.toUser().withRole(new Role("ROLE_ADMIN"));
-
-        passageiroRepository.save(passageiro);
         userRepository.save(
-            user
+            new User()
+                .name("Admin")
+                .email("admin@fiap.com.br")
+                .password(passwordEncoder.encode("fiap123"))
+                .withRole(new Role("ROLE_ADMIN"))
         );
 
         

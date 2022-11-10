@@ -30,12 +30,12 @@ public class MotoristaWebController {
     @GetMapping
     public ModelAndView index(@PageableDefault(size = 2) Pageable pageable) {
 
-        return new ModelAndView("/motorista/index").addObject("motoristas", motoristaService.listAll(pageable));
+        return new ModelAndView("motorista/index").addObject("motoristas", motoristaService.listAll(pageable));
     }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Motorista motorista) {
-        return "/motorista/cadastrar";
+        return "motorista/cadastrar";
     }
 
     @PostMapping("/cadastrar")
@@ -57,6 +57,6 @@ public class MotoristaWebController {
     @GetMapping("{id}")
     public ModelAndView edit(@PathVariable Long id){
         Motorista motorista = motoristaService.getById(id).get();
-        return new ModelAndView("/motorista/cadastrar").addObject("motorista", motorista);
+        return new ModelAndView("motorista/cadastrar").addObject("motorista", motorista);
     }
 }

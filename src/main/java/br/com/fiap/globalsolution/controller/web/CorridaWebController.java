@@ -43,7 +43,7 @@ public class CorridaWebController {
     @GetMapping
     public ModelAndView index(@PageableDefault(size = 2) Pageable pageable) {
 
-        return new ModelAndView("/corrida/index").addObject("corridas", corridaService.listAll(pageable));
+        return new ModelAndView("corrida/index").addObject("corridas", corridaService.listAll(pageable));
     }
 
     @PostMapping("/excluir")
@@ -58,7 +58,7 @@ public class CorridaWebController {
         List<Motorista> motoristas = motoristaService.listAll();
         List<Passageiro> passageiros = passageiroService.listAll();
         List<Veiculo> veiculos = veiculoService.listAll();
-        return new ModelAndView("/corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos);
+        return new ModelAndView("corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos);
     }
 
     @PostMapping("/cadastrar")
@@ -67,7 +67,7 @@ public class CorridaWebController {
             List<Motorista> motoristas = motoristaService.listAll();
             List<Passageiro> passageiros = passageiroService.listAll();
             List<Veiculo> veiculos = veiculoService.listAll();
-            return new ModelAndView("/corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos);
+            return new ModelAndView("corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos);
         } 
         String mensagem = corrida.getId() != null ? "Corrida Atualizada" : "Corrida cadastrada";
         corridaService.save(corrida);
@@ -81,6 +81,6 @@ public class CorridaWebController {
         List<Passageiro> passageiros = passageiroService.listAll();
         List<Veiculo> veiculos = veiculoService.listAll();
         Corrida corrida = corridaService.getById(id).get();
-        return new ModelAndView("/corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos).addObject("corrida", corrida);
+        return new ModelAndView("corrida/cadastrar").addObject("motoristas", motoristas).addObject("passageiros", passageiros).addObject("veiculos", veiculos).addObject("corrida", corrida);
     }
 }

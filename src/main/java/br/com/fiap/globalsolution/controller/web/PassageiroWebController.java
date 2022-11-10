@@ -26,12 +26,12 @@ public class PassageiroWebController {
     @GetMapping
     public ModelAndView index(@PageableDefault(size = 2) Pageable pageable) {
 
-        return new ModelAndView("/passageiro/index").addObject("passageiros", passageiroService.listAll(pageable));
+        return new ModelAndView("passageiro/index").addObject("passageiros", passageiroService.listAll(pageable));
     }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Passageiro passageiro) {
-        return "/passageiro/cadastrar";
+        return "passageiro/cadastrar";
     }
 
     @PostMapping("/cadastrar")
@@ -53,6 +53,6 @@ public class PassageiroWebController {
     @GetMapping("{id}")
     public ModelAndView edit(@PathVariable Long id){
         Passageiro passageiro = passageiroService.getById(id).get();
-        return new ModelAndView("/passageiro/cadastrar").addObject("passageiro", passageiro);
+        return new ModelAndView("passageiro/cadastrar").addObject("passageiro", passageiro);
     }
 }

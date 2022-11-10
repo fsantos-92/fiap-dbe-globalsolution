@@ -40,7 +40,7 @@ public class VeiculoWebController {
     public ModelAndView cadastrar(Veiculo veiculo, @PathVariable Long motoristaid) {
         Motorista motorista = motoristaService.getById(motoristaid).get();
         veiculo.setMotorista(motorista);
-        return new ModelAndView("/veiculo/cadastrar").addObject("motorista", motorista);
+        return new ModelAndView("veiculo/cadastrar").addObject("motorista", motorista);
     }
 
     @PostMapping("/cadastrar/{motoristaid}")
@@ -48,7 +48,7 @@ public class VeiculoWebController {
         Motorista motorista = motoristaService.getById(motoristaid).get();
         //veiculo.setMotorista(motorista);
         if(binding.hasErrors()) {
-            return new ModelAndView("/veiculo/cadastrar").addObject("motorista", motorista);
+            return new ModelAndView("veiculo/cadastrar").addObject("motorista", motorista);
         }
         String mensagem = veiculo.getId() != null ? "Veiculo Atualizado" : "Veiculo cadastrado";
         veiculoService.save(veiculo);
@@ -70,14 +70,14 @@ public class VeiculoWebController {
     public ModelAndView index(@PathVariable Long id){
         Motorista motorista = motoristaService.getById(id).get();
         List<Veiculo> veiculos = veiculoService.findByMotorista(motorista);
-        return new ModelAndView("/veiculo/index").addObject("veiculos", veiculos).addObject("motorista", motorista);
+        return new ModelAndView("veiculo/index").addObject("veiculos", veiculos).addObject("motorista", motorista);
     }
 
     @GetMapping("/editar/{id}")
     public ModelAndView edit(@PathVariable Long id){
         Veiculo veiculo = veiculoService.getById(id).get();
         Motorista motorista = motoristaService.getById(veiculo.getMotorista().getId()).get();
-        return new ModelAndView("/veiculo/cadastrar").addObject("motorista", motorista).addObject("veiculo", veiculo);
+        return new ModelAndView("veiculo/cadastrar").addObject("motorista", motorista).addObject("veiculo", veiculo);
         //return new ModelAndView("/cadastrar/index").addObject("veiculo", veiculo).addObject("motorista", motorista);
     }
 }

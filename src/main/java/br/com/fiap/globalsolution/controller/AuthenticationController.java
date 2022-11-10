@@ -1,6 +1,7 @@
 package br.com.fiap.globalsolution.controller;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import br.com.fiap.globalsolution.dto.UserDto;
 import br.com.fiap.globalsolution.dto.UserLoginDto;
 import br.com.fiap.globalsolution.model.JwtToken;
+import br.com.fiap.globalsolution.model.Passageiro;
 import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.AuthenticationService;
 import br.com.fiap.globalsolution.service.MotoristaService;
@@ -70,8 +72,11 @@ public class AuthenticationController {
             long id = 0;
             if(newUser.isMotorista())
                 id = motoristaService.findByEmail(newUser.getEmail()).getId();
-            else
-                id = passageiroService.findByEmail(newUser.getEmail()).getId();
+            else {
+                Passageiro passageiro = passageiroService.findByEmail(newUser.getEmail());
+                if(passageiro != null)
+                    id = passageiro.getId();
+            }
             return ResponseEntity.ok(new UserLoginDto(id, newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
         }catch(AuthenticationException e){
             e.printStackTrace();

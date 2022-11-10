@@ -71,7 +71,7 @@ public class AuthenticationController {
             if(newUser.isMotorista())
                 id = motoristaService.findByEmail(newUser.getEmail()).getId();
             else
-            id = passageiroService.findByEmail(newUser.getEmail()).getId();
+                id = passageiroService.findByEmail(newUser.getEmail()).getId();
             return ResponseEntity.ok(new UserLoginDto(id, newUser.getName(), user.getEmail(), newUser.isMotorista(), new JwtToken(token, "Bearer")));
         }catch(AuthenticationException e){
             e.printStackTrace();

@@ -65,7 +65,6 @@ public class SecurityConfiguration{
                 
                 // h2
                 .antMatchers("/h2-console/**").permitAll()
-/* 
                 // web
                 // home
                 .antMatchers(HttpMethod.GET, "/home/**").authenticated()
@@ -93,8 +92,6 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.GET, "/passageiro/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/passageiro/excluir/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/passageiro/cadastrar").authenticated()
-
-*/
                 .antMatchers("/css/**").permitAll()
 
                 .anyRequest().denyAll()

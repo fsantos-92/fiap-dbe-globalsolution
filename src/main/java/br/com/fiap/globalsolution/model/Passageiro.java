@@ -37,9 +37,11 @@ public class Passageiro {
 
     @Email
     @Column(name = "ds_email")
+    @NotBlank
     private String email;
 
     @JsonProperty(access = Access.WRITE_ONLY)
+    @NotBlank
     @Column(name = "ds_senha")
     private String password;
 

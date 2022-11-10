@@ -115,5 +115,11 @@ public class Veiculo {
         corridas.add(corrida);
     }
 
+    @Override
+    public String toString() {
+        return "Veiculo [id=" + id + /*", motorista=" + motorista.getNome() +*/ ", modelo=" + modelo + ", ano=" + ano + ", cor=" + cor
+                + ", placa=" + placa + "]";
+    }
+
     
 }

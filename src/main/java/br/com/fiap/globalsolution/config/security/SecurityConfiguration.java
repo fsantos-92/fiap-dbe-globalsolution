@@ -66,6 +66,35 @@ public class SecurityConfiguration{
                 // h2
                 .antMatchers("/h2-console/**").permitAll()
 
+                // web
+                // home
+                .antMatchers(HttpMethod.GET, "/home/**").authenticated()
+                // corridas
+                .antMatchers(HttpMethod.GET, "/corrida").authenticated()
+                .antMatchers(HttpMethod.GET, "/corrida/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/corrida/excluir/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/corrida/cadastrar").authenticated()
+
+                // motorista
+                .antMatchers(HttpMethod.GET, "/motorista").authenticated()
+                .antMatchers(HttpMethod.GET, "/motorista/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/motorista/excluir/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/motorista/cadastrar").authenticated()
+
+                // veiculo
+                .antMatchers(HttpMethod.GET, "/veiculo").authenticated()
+                .antMatchers(HttpMethod.GET, "/veiculo/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/veiculo/excluir/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/veiculo/cadastrar").authenticated()
+                .antMatchers(HttpMethod.POST, "/veiculo/cadastrar/**").authenticated()
+
+                // passageiro
+                .antMatchers(HttpMethod.GET, "/passageiro").authenticated()
+                .antMatchers(HttpMethod.GET, "/passageiro/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/passageiro/excluir/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/passageiro/cadastrar").authenticated()
+
+
                 .antMatchers("/css/**").permitAll()
 
                 .anyRequest().denyAll()
@@ -74,8 +103,8 @@ public class SecurityConfiguration{
             
                 // .headers().frameOptions().disable()
             // .and()
-                // .formLogin()
                 .addFilterBefore(new AuthorizationFilter(context), UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 
         ;        
         return http.build();

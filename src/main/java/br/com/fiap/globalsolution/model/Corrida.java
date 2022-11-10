@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -52,6 +54,7 @@ public class Corrida {
 
     @NotNull
     @Column(name = "dt_corrida")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate data;
 
     @Column(name = "vl_corrida")
@@ -140,12 +143,14 @@ public class Corrida {
         this.valor = valor;
     }
 
-    public boolean isFinalizada() {
+    public boolean isIsFinalizada() {
         return isFinalizada;
     }
 
-    public void setFinalizada(boolean isFinalizada) {
+    public void setIsFinalizada(boolean isFinalizada) {
         this.isFinalizada = isFinalizada;
     }
+
+    
 
 }

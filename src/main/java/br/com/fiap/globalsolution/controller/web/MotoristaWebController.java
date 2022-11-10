@@ -1,10 +1,13 @@
 package br.com.fiap.globalsolution.controller.web;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.fiap.globalsolution.model.Motorista;
+import br.com.fiap.globalsolution.model.User;
 import br.com.fiap.globalsolution.service.MotoristaService;
 import br.com.fiap.globalsolution.service.TelefoneService;
+import br.com.fiap.globalsolution.service.UserService;
 
 @Controller
 @RequestMapping("/motorista")
@@ -25,7 +30,10 @@ public class MotoristaWebController {
     MotoristaService motoristaService;
 
     @Autowired
-    TelefoneService telefoneService;
+    UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ModelAndView index(@PageableDefault(size = 2) Pageable pageable) {
@@ -39,12 +47,24 @@ public class MotoristaWebController {
     }
 
     @PostMapping("/cadastrar")
-    public String criar(@Valid Motorista motorista, BindingResult binding, RedirectAttributes redirect) {
-        if(binding.hasErrors()) return "motorista/cadastrar";
-        motoristaService.save(motorista);
+    public ModelAndView criar(@Valid Motorista motorista, BindingResult binding, RedirectAttributes redirect) {
+        if(binding.hasErrors()) return new ModelAndView("motorista/cadastrar");
+
+        if(motorista.getId() == null)
+        {
+            Optional<User> us = userService.getByEmail(motorista.getEmail());
+            if(us.isPresent())
+            {
+                return new ModelAndView("motorista/cadastrar").addObject("errormessage", "E-mail já cadastrado");
+            }
+        }
+        motorista.setPassword(passwordEncoder.encode(motorista.getPassword()));
+        User user = motorista.toUser();
         String mensagem = motorista.getId() != null ? "Motorista Atualizado" : "Motorista cadastrado";
+        motoristaService.save(motorista);
+        userService.save(user);
         redirect.addFlashAttribute("message",mensagem);
-        return "redirect:/motorista";
+        return new ModelAndView("redirect:/motorista");
     }
 
     @PostMapping("/excluir")

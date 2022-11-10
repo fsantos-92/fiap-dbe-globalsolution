@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -28,10 +29,12 @@ import br.com.fiap.globalsolution.dto.UserDto;
 
 @Entity
 @Table(name = "TB_FB_USER")
+// @SequenceGenerator(name = "user", sequenceName = "sq_tb_fb_user", allocationSize = 1)
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user")
     private Long id;
     @NotBlank
     private String name;

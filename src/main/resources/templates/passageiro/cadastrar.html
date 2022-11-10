@@ -46,6 +46,9 @@
         <div class="alert alert-success" role="alert" th:if="${message != null}" >
             <span th:text="${message}"></span>
         </div>
+        <div class="alert alert-danger" role="alert" th:if="${errormessage != null}" >
+            <span th:text="${errormessage}"></span>
+        </div>
         <form action="/passageiro/cadastrar" method="POST" th:object="${passageiro}">
             <input type="hidden" th:field="*{id}" id="id">
             <div class="mb-3">

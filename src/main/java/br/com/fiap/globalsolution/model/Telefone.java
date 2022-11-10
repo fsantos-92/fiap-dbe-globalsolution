@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -14,9 +15,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TB_FB_TELEFONE")
+// @SequenceGenerator(name = "telefone", sequenceName = "sq_tb_fb_telefone", allocationSize = 1)
 public class Telefone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "telefone")
     @Column(name = "id_telefone")
     private Long id;
 

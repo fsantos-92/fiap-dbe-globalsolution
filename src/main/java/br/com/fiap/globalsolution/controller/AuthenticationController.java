@@ -53,22 +53,18 @@ public class AuthenticationController {
     @PostMapping
     public ResponseEntity<Object> auth(@RequestBody User user){
         User newUser = (User)service.loadUserByUsername(user.getEmail());
-        // System.out.println(newUser.isMotorista());
         try{
             Authentication authentication = 
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
             authenticationManager.authenticate(authentication);
-            // System.out.println(secret);
             Date issuedAt = new Date();
             Date expiresAt = new Date(issuedAt.getTime() + 60_000 );
             String token = JWT.create()
                 .withSubject(user.getEmail())
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
-                // .sign(Algorithm.HMAC512("fafslpq$783@!475")
                 .sign(Algorithm.HMAC512(secret)
             );
-            // return ResponseEntity.ok(new JwtToken(token, "Bearer", newUser.isMotorista()));
             long id = 0;
             if(newUser.isMotorista())
                 id = motoristaService.findByEmail(newUser.getEmail()).getId();

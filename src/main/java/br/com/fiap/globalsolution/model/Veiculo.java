@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,9 +20,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "TB_FB_VEICULO")
+// @SequenceGenerator(name = "veiculo", sequenceName = "sq_tb_fb_veiculo", allocationSize = 1)
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "veiculo")
     @Column(name = "id_veiculo")
     private Long id;
 

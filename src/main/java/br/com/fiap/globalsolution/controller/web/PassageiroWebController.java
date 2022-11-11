@@ -72,6 +72,10 @@ public class PassageiroWebController {
 
     @PostMapping("/excluir")
     public String delete(Long id, RedirectAttributes redirect) {
+        Optional<Passageiro> optional = passageiroService.getById(id);
+        Optional<User> opt = userService.getByEmail(optional.get().toUser().getEmail());
+        User user = opt.get();
+        userService.deleteById(user.getId());
         passageiroService.deleteById(id);
         redirect.addFlashAttribute("message", "Passageiro apagado com sucesso");
         return "redirect:/passageiro";

@@ -30,7 +30,7 @@ public class TokenService {
     }
 
     public boolean validate(String token) {
-        System.out.println(secret);
+        // System.out.println(secret);
         try{
             JWT.require(Algorithm.HMAC512(secret)).build().verify(token);
             return true;

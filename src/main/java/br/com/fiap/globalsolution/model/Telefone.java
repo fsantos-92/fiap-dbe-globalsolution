@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,10 +27,14 @@ public class Telefone {
 
     @NotBlank
     @Column(name = "nr_telefone")
+    @Size(min = 7, max = 9, message = "Deve ter entre 7 e 9 dígitos")
+    @Pattern(regexp="[\\d]{7-9}", message="Deve conter somente números")
     private String numero;
 
     @NotBlank
     @Column(name = "nr_ddd")
+    @Size(min = 2, max = 2, message = "Deve possuir 2 digitos")
+    @Pattern(regexp="[\\d]{2}", message="Deve conter somente números")
     private String ddd;
 
     // @JsonIgnore

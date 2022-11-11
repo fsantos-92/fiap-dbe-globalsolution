@@ -102,6 +102,10 @@ public class SecurityConfiguration{
             // .and()
                 .addFilterBefore(new AuthorizationFilter(context), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
+                // .and()
+                // .logout()
+                // .invalidateHttpSession(true)
+                // .deleteCookies("JSESSIONID")
 
                 
         ;        

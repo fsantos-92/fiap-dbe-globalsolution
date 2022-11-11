@@ -13,8 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,18 +39,23 @@ public class Veiculo {
 
     @NotBlank
     @Column(name = "ds_modelo")
+    @Size(min = 3, max = 50, message = "Deve possuir entre 3 e 50 caracteres")
     private String modelo;
 
     @NotNull
+    @Min(1990)
+    @Max(2022)
     @Column(name = "ds_ano", scale = 4)
     private int ano;
 
     @NotBlank
     @Column(name = "ds_cor")
+    @Size(min = 3, max = 30, message = "Deve possuir entre 3 e 30 caracteres")
     private String cor;
 
     @NotBlank
     @Column(name = "nr_placa", length = 7)
+    @Size(min = 7, max = 7, message = "Deve possuir 7 caracteres")
     private String placa;
 
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.REMOVE)

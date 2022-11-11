@@ -13,6 +13,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -28,23 +30,29 @@ public class Passageiro {
     private Long id;
 
     @NotBlank
-    @Column(name = "nm_passageiro")
+    @Column(name = "nm_passageiro", length = 80)
+    @Size(min = 5, max = 80, message = "Deve possuir entre 5 e 80 caracteres")
     private String nome;
     
-    @Column(name = "nr_cpf")
+    @Column(name = "nr_cpf", length = 11)
+    @Size(min = 11, max = 11, message = "Deve possuir 11 caracteres")
+    @Pattern(regexp="[\\d]{11}", message="Deve conter somente números")
     private String cpf;
     
     @NotBlank
+    @Size(min = 9, max = 9, message = "Deve possuir 9 caracteres")
     @Column(name = "nr_rg", length = 9)
     private String rg;
 
     @Email
     @Column(name = "ds_email")
+    @Pattern(regexp = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+).(\\.[a-z]{2,3})$", message = "Formato de email inválido")
     @NotBlank
     private String email;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank
+    @Size(min = 8, message = "Deve ter no mínimo 8 caracteres")
     @Column(name = "ds_senha")
     private String password;
 

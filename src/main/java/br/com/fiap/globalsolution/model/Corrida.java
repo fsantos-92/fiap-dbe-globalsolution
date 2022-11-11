@@ -12,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,11 +51,15 @@ public class Corrida {
     private Veiculo veiculo;
 
     @NotBlank
-    @Column(name = "ds_origem")
+    @Size(min = 5, message = "Deve ter mais que 5 caracteres")
+    @Size(max = 100, message = "Deve ter menos de 100 caracteres")
+    @Column(name = "ds_origem", length = 100)
     private String origem;
     
     @NotBlank
-    @Column(name = "ds_destino")
+    @Column(name = "ds_destino", length = 100)
+    @Size(min = 5, message = "Deve ter mais que 5 caracteres")
+    @Size(max = 100, message = "Deve ter menos de 100 caracteres")
     private String destino;
 
     @NotNull
@@ -60,7 +67,9 @@ public class Corrida {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate data;
 
+    @NotNull
     @Column(name = "vl_corrida")
+    @DecimalMin(value = "0", message = "Valor não pode ser menor que zero")
     private BigDecimal valor;
 
     @Column(name = "st_finalizada")

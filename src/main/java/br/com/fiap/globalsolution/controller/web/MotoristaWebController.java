@@ -70,7 +70,7 @@ public class MotoristaWebController {
     @PostMapping("/excluir")
     public String delete(Long id, RedirectAttributes redirect) {
         Optional<Motorista> optional = motoristaService.getById(id);
-        Optional<User> opt = userService.getByEmail(optional.get().toUser().getEmail());
+        Optional<User> opt = userService.getByEmail(optional.get().getEmail());
         User user = opt.get();
         userService.deleteById(user.getId());
         motoristaService.deleteById(id);

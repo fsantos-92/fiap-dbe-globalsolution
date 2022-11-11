@@ -73,7 +73,7 @@ public class PassageiroWebController {
     @PostMapping("/excluir")
     public String delete(Long id, RedirectAttributes redirect) {
         Optional<Passageiro> optional = passageiroService.getById(id);
-        Optional<User> opt = userService.getByEmail(optional.get().toUser().getEmail());
+        Optional<User> opt = userService.getByEmail(optional.get().getEmail());
         User user = opt.get();
         userService.deleteById(user.getId());
         passageiroService.deleteById(id);

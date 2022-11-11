@@ -52,7 +52,6 @@ public class AuthenticationController {
     
     @PostMapping
     public ResponseEntity<Object> auth(@RequestBody User user){
-        User newUser = (User)service.loadUserByUsername(user.getEmail());
         try{
             Authentication authentication = 
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -66,6 +65,7 @@ public class AuthenticationController {
                 .sign(Algorithm.HMAC512(secret)
             );
             long id = 0;
+            User newUser = (User)service.loadUserByUsername(user.getEmail());
             if(newUser.isMotorista())
                 id = motoristaService.findByEmail(newUser.getEmail()).getId();
             else {
